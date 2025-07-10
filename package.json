@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Plataforma para vender assinaturas VIP e conteúdo no Telegram",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
