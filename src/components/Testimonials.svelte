@@ -177,7 +177,7 @@
 
   .section-header p {
     font-size: 1.25rem;
-    color: #6b7280;
+    color: #fbfbfb;
     max-width: 600px;
     margin: 0 auto;
   }
@@ -235,7 +235,7 @@
 
   .user-info p {
     font-size: 0.9rem;
-    color: #6b7280;
+    color: #fbfbfb;
   }
 
   .rating {

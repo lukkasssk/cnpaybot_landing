@@ -125,7 +125,7 @@
   }
   
   .color-input span {
-    color: #6b7280;
+    color: #fbfbfb;
     font-size: 0.8rem;
   }
   

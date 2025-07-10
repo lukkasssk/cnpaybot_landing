@@ -7,45 +7,31 @@
   let features = [
     {
       icon: 'hero-icon',
-      heroIcon: 'credit-card',
-      title: 'Pagamento',
-      description: 'Receba pagamentos instantâneos via PIX na sua conta',
-      color: '#10b981'
-    },
-    {
-      icon: 'hero-icon',
       heroIcon: 'cpu-chip',
-      title: 'Automatização',
-      description: 'Crie e venda assinaturas automaticamente',
+      title: 'Sem programar',
+      description: 'Configure seu bot sem precisar saber programação. Interface intuitiva e fácil de usar.',
       color: '#8b5cf6'
     },
     {
       icon: 'hero-icon',
-      heroIcon: 'lock-closed',
-      title: 'Seguro',
-      description: 'Pagamentos anônimos para maior privacidade',
-      color: '#ef4444'
-    },
-    {
-      icon: 'hero-icon',
-      heroIcon: 'bell',
-      title: 'Assinaturas',
-      description: 'O bot adiciona e remove usuários automaticamente',
-      color: '#06b6d4'
+      heroIcon: 'chart-bar',
+      title: 'Taxa fixa',
+      description: 'Apenas R$0,50 por transação aprovada. Sem surpresas ou taxas ocultas.',
+      color: '#3b82f6'
     },
     {
       icon: 'hero-icon',
       heroIcon: 'device-phone-mobile',
-      title: 'Configurável',
-      description: 'Personalize seu bot com mensagens e botões',
+      title: 'Personalização total',
+      description: 'Customize mensagens, botões e toda a experiência do seu bot.',
       color: '#f59e0b'
     },
     {
       icon: 'hero-icon',
-      heroIcon: 'chart-bar',
-      title: 'Taxa',
-      description: 'Apenas R$ 0,75 por cada venda que fizer',
-      color: '#3b82f6'
+      heroIcon: 'bell',
+      title: 'Suporte 24/7',
+      description: 'Nossa equipe está sempre disponível para te ajudar quando precisar.',
+      color: '#06b6d4'
     }
   ]
   
@@ -54,7 +40,7 @@
   
   // Dados das métricas
   let metrics = [
-    { value: 0, target: 0.80, symbol: 'R$ ', label: 'Taxa por Venda', description: 'Apenas R$ 0,80 por cada venda que fizer' },
+    { value: 0, target: 0.75, symbol: 'R$ ', label: 'Taxa por Venda', description: 'Apenas R$ 0,80 por cada venda que fizer' },
     { value: 0, target: 2, symbol: '', label: 'Recebimento', description: 'Pix em 2 dias úteis' },
     { value: 0, target: 99.9, symbol: '', label: 'Uptime', description: 'Sistema sempre online' }
   ]
@@ -187,7 +173,7 @@
 
     
     <!-- Seção de Métricas -->
-    <div class="metrics-section">
+    <div class="metrics-section" id="pricing">
       <div class="section-header" in:fly={{ y: 50, duration: 800 }}>
         <h2>Métricas Impressionantes</h2>
         <p>Números que comprovam nossa excelência</p>
@@ -231,8 +217,9 @@
   }
   
   .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
+    width: 100%;
   }
   
   .section-header {
@@ -249,27 +236,27 @@
   
   .section-header p {
     font-size: 1.25rem;
-    color: #6b7280;
+    color: #fbfbfb;
     max-width: 600px;
     margin: 0 auto;
   }
   
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     margin-bottom: 4rem;
   }
   
   .feature-card {
-    background: transparent;
-    padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    background: rgba(30, 41, 59, 0.8);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(51, 65, 85, 0.7);
   }
   
   .feature-card::after {
@@ -285,9 +272,9 @@
   }
   
   .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-color: rgba(51, 65, 85, 0.9);
   }
   
   .feature-card:hover::after {
@@ -453,16 +440,16 @@
   }
   
   .feature-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
     font-weight: 600;
-    color: #0088cc;
-    margin-bottom: 1rem;
+    color: white;
+    margin-bottom: 0.5rem;
   }
   
   .feature-card p {
-    color: white;
+    color: #94a3b8;
     line-height: 1.6;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   
   .features-cta {
@@ -481,7 +468,7 @@
   }
   
   .features-cta p {
-    color: #6b7280;
+    color: #fbfbfb;
     font-size: 1.1rem;
     margin-bottom: 2rem;
   }
@@ -523,7 +510,7 @@
     }
     
     .feature-card {
-      padding: 2rem;
+      padding: 1.5rem;
     }
     
     .feature-icon {
@@ -533,7 +520,7 @@
     }
     
     .feature-card h3 {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
     }
     
     .features-cta {

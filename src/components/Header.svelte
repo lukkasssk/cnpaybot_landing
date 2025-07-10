@@ -88,38 +88,35 @@
       if (isMenuOpen) {
         dispatch('toggleMenu');
       }
-      
-      // Calcula a posição considerando o header fixo
-      const headerHeight = 100; // Altura aproximada do header
-      const elementPosition = element.offsetTop - headerHeight;
+
+      // Calcula a altura real do header fixo
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight + 20 : 100; // 20px extra para margem
+      const elementRect = element.getBoundingClientRect();
+      const absoluteElementTop = elementRect.top + window.pageYOffset;
+      const targetPosition = absoluteElementTop - headerHeight;
       const startPosition = window.pageYOffset;
-      const distance = elementPosition - startPosition;
-      const duration = 800; // Duração da animação em ms
+      const distance = targetPosition - startPosition;
+      const duration = 900; // Duração da animação em ms
       let start = null;
-      
+
       // Função de easing (easeInOutCubic)
       function easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
       }
-      
-      // Função de animação
+
       function animation(currentTime) {
         if (start === null) start = currentTime;
         const timeElapsed = currentTime - start;
         const progress = Math.min(timeElapsed / duration, 1);
         const easedProgress = easeInOutCubic(progress);
-        
         window.scrollTo(0, startPosition + distance * easedProgress);
-        
         if (timeElapsed < duration) {
           requestAnimationFrame(animation);
         }
       }
-      
-      // Inicia a animação
       requestAnimationFrame(animation);
     }
-    // Dispatch event para o componente pai
     dispatch('scrollTo', { sectionId });
   }
 </script>
@@ -145,18 +142,21 @@
       </div>
 
       <div class="nav-links" class:open={isMenuOpen}>
+        <button class="mobile-close-btn" on:click={toggleMobileMenu}>
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
         <a href="#hero" on:click={() => scrollToSection('hero')}>Início</a>
         <a href="#features" on:click={() => scrollToSection('features')}>Recursos</a>
         <a href="#how-it-works" on:click={() => scrollToSection('how-it-works')}>Como Funciona</a>
         <a href="#pricing" on:click={() => scrollToSection('pricing')}>Preços</a>
         <a href="#faq" on:click={() => scrollToSection('faq')}>FAQ</a>
-        <a href="#cta" on:click={() => scrollToSection('cta')}>Contato</a>
+        <a href="#suporte" on:click={() => scrollToSection('suporte')}>Contato</a>
       </div>
 
       <div class="nav-buttons">
-        <button class="btn-secondary" on:click={() => scrollToSection('pricing')}>
-          Falar Com Gerente
-        </button>
+        <button class="btn-secondary s-c1MG4BWNDc59" on:click={() => window.open('https://t.me/cnpayy_bot', '_blank')}>Falar Com Gerente</button>
         <button class="mobile-menu-btn" class:open={isMenuOpen} on:click={toggleMobileMenu}>
           {#if isMenuOpen}
             <!-- Ícone X quando menu aberto -->
@@ -177,15 +177,13 @@
 
 <style>
   header {
-    position: fixed;
-    top: 10px;
+    position: relative;
     left: 0;
-    max-width: 90%;
     right: 0;
-    border-radius: 30px;
+    width: 100%;
     justify-self: center;
     z-index: 1000;
-    background: rgba(255, 255, 255, var(--scroll-opacity));
+    background: white;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, calc(var(--scroll-opacity) * 0.1));
@@ -194,7 +192,7 @@
   header.scrolled {
     border-bottom: 3px solid #0088cc;
     box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.3);
-    background: rgba(255, 255, 255, 0.95);
+    background: white;
     transform: translateY(0);
   }
 
@@ -204,11 +202,13 @@
   }
 
   nav {
-    padding: 1rem 2rem;
+    padding: 1rem 0;
+    width: 100%;
   }
 
   .nav-container {
-    max-width: 1200px;
+    max-width: 1400px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     gap: 1rem; 
@@ -219,7 +219,6 @@
     background: rgba(0, 0, 0, 0);
     border-radius: 18px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-    margin-top: 24px;
   }
 
   .logo {
@@ -241,14 +240,12 @@
 
   .nav-links a {
     text-decoration: none;
-    color: #ffffff;
+    color: oklch(55.6% 0 0);
     font-weight: 500;
     font-size: 14px;
     line-height: 14px;
     transition: color 0.3s ease;
     position: relative;
-    /* Ajusta a cor baseada na opacidade do fundo */
-    filter: brightness(calc(1 - var(--scroll-opacity) * 0.3));
   }
 
   .nav-links a:hover {
@@ -278,9 +275,9 @@
 
   .btn-secondary {
     border: 2px solid #0088cc;
-    background: transparent;
-    color: #0088cc;
-    border-radius: 24px;
+    background: oklch(60% .2 250);
+    color: #ffffff;
+    border-radius: 5px;
     padding: 8px 22px;
     font-weight: 600;
     cursor: pointer;
@@ -293,8 +290,25 @@
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    color: #374151;
+    color: oklch(55.6% 0 0);
     transition: color 0.3s ease;
+  }
+
+  .mobile-close-btn {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: oklch(55.6% 0 0);
+    transition: color 0.3s ease;
+  }
+
+  .mobile-close-btn:hover {
+    color: #0088cc;
   }
 
   .mobile-menu-btn:hover {
@@ -314,7 +328,7 @@
 
     .nav-links {
       position: fixed;
-      top: 100%;
+      top: 0;
       left: 0;
       right: 0;
       background: #0b0b0b;
@@ -326,12 +340,20 @@
       visibility: hidden;
       transition: all 0.3s ease;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      justify-content: flex-start;
+      align-items: center;
+      z-index: 9999;
+      padding-top: 6rem;
+      min-height: 300px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
     }
 
     .nav-links a {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1.1rem;
+      color: oklch(55.6% 0 0);
+      font-size: 1.2rem;
       font-weight: 600;
+      padding: 0.75rem 0;
     }
 
     .nav-links a:hover {
@@ -353,6 +375,10 @@
       height: 24px;
       transition: all 0.3s ease;
     }
+
+    .mobile-close-btn {
+      display: block;
+    }
   }
 
   @media (max-width: 900px) {
@@ -364,6 +390,24 @@
     }
     .nav-buttons {
       gap: 8px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .nav-container {
+      max-width: 1600px;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .nav-container {
+      max-width: 1800px;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    .nav-container {
+      max-width: 2000px;
     }
   }
 </style> 

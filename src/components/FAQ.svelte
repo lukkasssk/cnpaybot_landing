@@ -83,7 +83,7 @@
       {/each}
     </div>
 
-    <div class="mx-auto flex max-w-4xl flex-col items-center rounded-lg bg-accent p-4 text-center md:rounded-xl md:p-6 lg:p-8">
+    <div class="mx-auto flex max-w-4xl flex-col items-center rounded-lg bg-accent p-4 text-center md:rounded-xl md:p-6 lg:p-8" id="suporte">
       <div class="relative">
         <span class="flex shrink-0 overflow-hidden rounded-full absolute mb-4 size-16 origin-bottom -translate-x-[60%] scale-[80%] border md:mb-5">
           <img class="aspect-square size-full" src="https://shadcnblocks.com/images/block/avatar-2.webp" alt="Suporte 1">
@@ -103,7 +103,7 @@
       </p>
       <div class="flex w-full flex-col justify-center gap-2 sm:flex-row">
         <a 
-          href="https://t.me/botvips_suporte" 
+          href="https://t.me/cnpayy_bot" 
           target="_blank" 
           class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full sm:w-auto"
         >
@@ -116,7 +116,7 @@
 
 <style>
   :global(.text-muted-foreground) {
-    color: #6b7280;
+    color: #fbfbfb;
   }
 
   :global(.bg-accent) {
@@ -382,7 +382,7 @@
   }
 
   #faq > div > div > div > h3 > button{
-    background: transparent;
+    background: #ffffff3d;
     color: white;
     align-items: center;
     padding: 10px;

@@ -67,61 +67,17 @@
     }
   }
 
-  // Typewriter effect
-  let typewriterWords = [
-    'Canal',
-    'Grupo',
-    'Canal Privado',
-    'Grupo Fechado',
-    'Conteúdo',
-    'Bot',
-    'Negócio'
-  ];
-  let currentWordIndex = 0;
-  let displayWord = '';
-  let isDeleting = false;
-  let typingSpeed = 200;
-  let pauseTime = 3000;
 
-  function typeWriter() {
-    let word = typewriterWords[currentWordIndex];
-    if (!isDeleting) {
-      displayWord = word.substring(0, displayWord.length + 1);
-      if (displayWord === word) {
-        setTimeout(() => {
-          isDeleting = true;
-          typeWriter();
-        }, pauseTime);
-      } else {
-        setTimeout(typeWriter, typingSpeed);
-      }
-    } else {
-      displayWord = word.substring(0, displayWord.length - 1);
-      if (displayWord === '') {
-        isDeleting = false;
-        currentWordIndex = (currentWordIndex + 1) % typewriterWords.length;
-        setTimeout(typeWriter, typingSpeed);
-      } else {
-        setTimeout(typeWriter, typingSpeed);
-      }
-    }
-  }
-
-  import { onMount as onMountType } from 'svelte';
-  onMountType(() => {
-    typeWriter();
-  });
 </script>
 
 <section class="hero" id="hero">
   <div class="hero-container">
     <div class="hero-content hero-single" in:fly={{ y: 50, duration: 800, delay: 200 }}>
-      <h1>
-        Transforme Seu <span class="highlight-gradient typewriter">{displayWord}&nbsp;</span>em Receita
+      <h1 class="main-title">
+        Rapidez e segurança para você <span class="highlight-gradient">lucrar mais.</span>
       </h1>
       <p class="hero-description">
-        Plataforma completa para vender assinaturas VIP e conteúdo exclusivo.<br>
-        Crie, gerencie e monetize sua comunidade com facilidade.
+        Uma plataforma para você vender a assinatura da sua Comunidade VIP ou conteúdo individual no Telegram.
       </p>
       <div class="hero-buttons">
         <button class="btn-primary">
@@ -132,43 +88,39 @@
 
   </div>
 
-  <div class="hero-background">
-    <div class="bg-shape bg-shape-1"></div>
-    <div class="bg-shape bg-shape-2"></div>
-    <div class="bg-shape bg-shape-3"></div>
-  </div>
 </section>
 
 <style>
   .hero {
-    min-height: 100vh;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    padding: 150px 2rem 4rem;
+    padding: 0 2rem 4rem;
   }
 
   .hero-container {
-    max-width: 1200px;
+    max-width: 600px;
     margin: 0 auto;
     width: 100%;
   }
 
   .hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
     margin-bottom: 4rem;
+    max-width: 800px;
   }
 
   .hero-text h1 {
-    font-size: 3.5rem;
+    font-size: 3.0rem;
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 1.5rem;
     color: #1f2937;
+    text-align: left;
   }
 
   .highlight-gradient {
@@ -182,15 +134,19 @@
 
   .hero-description {
     font-size: 1.25rem;
-    color: #6b7280;
+    color: #fbfbfb;
     margin-bottom: 2.5rem;
     line-height: 1.6;
+    text-align: left;
+    max-width: 600px;
+    word-wrap: break-word;
   }
 
   .hero-buttons {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
   .btn-primary {
@@ -368,7 +324,7 @@
   }
 
   .stat-label {
-    color: #6b7280;
+    color: #fbfbfb;
     font-weight: 500;
   }
 
@@ -445,22 +401,24 @@
   .hero-content.hero-single {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    text-align: center;
+    text-align: left;
     gap: 1.5rem;
     margin-bottom: 4rem;
   }
-  .hero-content.hero-single h1 {
+  .hero-content.hero-single .main-title {
     font-size: 3.5rem;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.1;
     margin-bottom: 1.5rem;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    max-width: 800px;
+    text-align: left;
   }
   .hero-content.hero-single .hero-description {
     font-size: 1.25rem;
-    color: #6b7280;
+    color: #fbfbfb;
     margin-bottom: 2.5rem;
     line-height: 1.6;
   }
@@ -468,12 +426,12 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   @media (max-width: 768px) {
     .hero {
-      padding: 100px 1rem 2rem;
+      padding: 0px 1rem 2rem;
     }
 
     .hero-content {
@@ -486,19 +444,24 @@
       font-size: 2.5rem;
     }
 
-    .hero-content.hero-single h1 {
-      font-size: 2.2rem;
+    .hero-content.hero-single .main-title {
+      font-size: 2.5rem;
       line-height: 1.1;
       margin-bottom: 1rem;
+      text-align: left;
     }
 
     .hero-description {
       font-size: 1.1rem;
+      text-align: left;
+      max-width: 100%;
     }
 
     .hero-content.hero-single .hero-description {
       font-size: 1rem;
       margin-bottom: 2rem;
+      text-align: left;
+      max-width: 100%;
     }
 
     .hero-buttons {
@@ -525,8 +488,8 @@
   }
 
   @media (max-width: 480px) {
-    .hero-content.hero-single h1 {
-      font-size: 1.8rem;
+    .hero-content.hero-single .main-title {
+      font-size: 2rem;
       line-height: 1.1;
     }
 
@@ -540,13 +503,5 @@
     }
   }
 
-  .typewriter {
-    border-right: 2px solid #00a8ff;
-    white-space: nowrap;
-    animation: blink-cursor 0.8s steps(1) infinite;
-  }
-  @keyframes blink-cursor {
-    0%, 100% { border-color: #00a8ff; }
-    50% { border-color: transparent; }
-  }
+
 </style> 

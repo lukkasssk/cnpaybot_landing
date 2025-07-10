@@ -1,15 +1,14 @@
 <script>
   import Header from './components/Header.svelte'
-  import Hero from './components/Hero.svelte'
+  import HeroPhoneSection from './components/HeroPhoneSection.svelte'
   import Features from './components/Features.svelte'
-  import HowItWorks from './components/HowItWorks.svelte'
+  import ControlSection from './components/ControlSection.svelte'
   import Pricing from './components/Pricing.svelte'
   import Testimonials from './components/Testimonials.svelte'
   import FAQ from './components/FAQ.svelte'
   import CTA from './components/CTA.svelte'
   import Footer from './components/Footer.svelte'
-  import Scrollbar from 'smooth-scrollbar'
-  import { onMount as onMountScrollbar } from 'svelte'
+
   
   // Estado global
   let currentSection = 'home'
@@ -42,17 +41,18 @@
     })
   })
   
-  let scrollContainer;
-  onMountScrollbar(() => {
-    if (scrollContainer) {
-      Scrollbar.init(scrollContainer, {
-        damping: 0.07,
-        thumbMinSize: 40,
-        renderByPixels: true,
-        alwaysShowTracks: true
-      });
+  // Scroll suave ao carregar com hash na URL
+  onMount(() => {
+    if (window.location.hash) {
+      const sectionId = window.location.hash.replace('#', '');
+      // Timeout para garantir que os componentes já renderizaram
+      setTimeout(() => {
+        scrollToSection(sectionId);
+      }, 300);
     }
   });
+  
+
 </script>
 
 <svelte:head>
@@ -61,14 +61,12 @@
 </svelte:head>
 
 <Header {currentSection} {isMenuOpen} on:toggleMenu={() => isMenuOpen = !isMenuOpen} on:scrollTo={({ detail }) => scrollToSection(detail.sectionId)} />
-<div class="scroll-content" bind:this={scrollContainer}>
+<div class="scroll-content">
   <main>
   
-    <Hero />
-    <HowItWorks />
-    <!-- Demo Section (mockup do celular) -->
-    {#if false}<!-- placeholder, será movido do HowItWorks.svelte para cá -->{/if}
+    <HeroPhoneSection />
     <Features />
+    <ControlSection />
     <FAQ />
     <Footer />
   </main>
@@ -85,7 +83,7 @@
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
     color: #fff;
-    background: #0b0b0b;
+    background: oklch(37.9% .146 265.522);
     overflow-x: hidden;
   }
   
@@ -109,9 +107,10 @@
   }
   
   :global(.container) {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
   }
   
   :global(.animate-on-scroll) {
@@ -180,11 +179,7 @@
   }
   
   main {
-    min-height: 100vh;
-    max-width: 1400px;
-    margin: 0 auto;
     width: 100%;
-    padding: 0 2rem;
   }
   
   @media (max-width: 768px) {
@@ -197,7 +192,25 @@
     }
     
     main {
-      padding: 0 1rem;
+      padding: 0;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    :global(.container) {
+      max-width: 1600px;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    :global(.container) {
+      max-width: 1800px;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    :global(.container) {
+      max-width: 2000px;
     }
   }
   
@@ -226,22 +239,19 @@
     background: transparent;
   }
   
-  :global(html), :global(body), :global(#app), :global(main) {
+  :global(html), :global(body), :global(#app) {
     height: 100%;
-    min-height: 100vh;
     width: 100%;
-    overflow: auto;
     position: relative;
   }
+  
   main {
     display: block;
-    height: 100vh;
-    min-height: 100vh;
-    overflow: auto;
+    width: 100%;
   }
   
   .scroll-content {
-    height: 100vh;
-    overflow: auto;
+    width: 100%;
+    min-height: 100vh;
   }
 </style> 

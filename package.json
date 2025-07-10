@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "vite preview --host 0.0.0.0 --port $PORT",
+    "serve": "vite preview --host 0.0.0.0 --port $PORT",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {

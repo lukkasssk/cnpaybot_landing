@@ -178,7 +178,7 @@
   .btn-outline {
     background: transparent;
     color: white;
-    border: 2px solid #6b7280;
+    border: 2px solid #fbfbfb;
     padding: 1rem 2rem;
     border-radius: 12px;
     font-weight: 600;

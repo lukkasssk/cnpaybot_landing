@@ -16,7 +16,7 @@
         'Dashboard básico'
       ],
       popular: false,
-      color: '#6b7280'
+      color: '#fbfbfb'
     },
     {
       name: 'Pro',
@@ -173,7 +173,7 @@
 
   .section-header p {
     font-size: 1.25rem;
-    color: #6b7280;
+    color: #fbfbfb;
     max-width: 600px;
     margin: 0 auto;
   }
@@ -245,7 +245,7 @@
   .currency {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #6b7280;
+    color: #fbfbfb;
   }
 
   .amount {
@@ -257,11 +257,11 @@
 
   .period {
     font-size: 1rem;
-    color: #6b7280;
+    color: #fbfbfb;
   }
 
   .description {
-    color: #6b7280;
+    color: #fbfbfb;
     font-size: 1rem;
   }
 
@@ -336,7 +336,7 @@
   }
 
   .pricing-cta p {
-    color: #6b7280;
+    color: #fbfbfb;
     font-size: 1.1rem;
     margin-bottom: 2rem;
   }

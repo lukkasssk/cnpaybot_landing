@@ -37,6 +37,7 @@
   let currentMessageIndex = 0;
   let userInput = '';
   let isBotResponding = false;
+  let isBotTyping = false;
   let messages = [
     {
       type: 'received',
@@ -46,7 +47,7 @@
     },
     {
       type: 'sent',
-      text: 'Escolha um dos planos VIP disponíveis:',
+      text: '👋 Olá! Bem-vindo ao Bot CnPay!\n\nEscolha um dos planos VIP disponíveis:',
       time: '14:32',
       avatar: '🤖'
     }
@@ -54,9 +55,9 @@
 
   let showPlanButtons = false;
   let planOptions = [
-    { name: 'Básico', price: 'R$ 29,90/mês', icon: 'fa-solid fa-gem' },
-    { name: 'Premium', price: 'R$ 49,90/mês', icon: 'fa-solid fa-star' },
-    { name: 'VIP', price: 'R$ 99,90/mês', icon: 'fa-solid fa-crown' }
+    { name: 'VIP - Mensal', price: 'R$ 29,90/mês', icon: 'fa-solid fa-gem' },
+    { name: 'VIP Trimestral', price: 'R$ 49,90/mês', icon: 'fa-solid fa-star' },
+    { name: 'VIP Permanente', price: 'R$ 99,90/mês', icon: 'fa-solid fa-crown' }
   ];
   let selectedPlan = null;
   let showPixButton = false;
@@ -127,6 +128,27 @@
       }
     ];
     currentMessageIndex = messages.length;
+    
+    // Adiciona mensagem sobre comandos após 2 segundos
+    setTimeout(() => {
+      addCommandsMessage();
+    }, 2000);
+  }
+
+  function addCommandsMessage() {
+    const now = new Date();
+    const hora = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+    messages = [
+      ...messages,
+      {
+        type: 'sent',
+        text: '💡 Dica: Digite /comando para ver todos os comandos disponíveis!',
+        time: hora,
+        avatar: '🤖',
+        html: false
+      }
+    ];
+    currentMessageIndex = messages.length;
   }
 
   function selectPlan(plan) {
@@ -177,21 +199,36 @@
     currentMessageIndex = messages.length;
     userInput = '';
     isBotResponding = true;
+    isBotTyping = true;
     setTimeout(() => {
       botAutoReply();
     }, 1200);
   }
 
   function botAutoReply() {
+    isBotTyping = false;
     const now = new Date();
     const hora = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-    const replies = [
-      'Olá! Como posso ajudar você hoje?',
-      'Para ver os planos, digite /planos.',
-      'Se precisar de suporte, digite /suporte.',
-      'Obrigado por entrar em contato!'
-    ];
-    const reply = replies[Math.floor(Math.random() * replies.length)];
+    
+    // Pega a última mensagem do usuário
+    const lastUserMessage = messages[messages.length - 1].text.toLowerCase().trim();
+    
+    let reply = '';
+    
+    // Verifica se é um comando
+    if (lastUserMessage.startsWith('/')) {
+      reply = handleCommand(lastUserMessage);
+    } else {
+      // Respostas aleatórias para mensagens normais
+      const replies = [
+        'Olá! Como posso ajudar você hoje?',
+        'Para ver os planos, digite /planos.',
+        'Se precisar de suporte, digite /suporte.',
+        'Obrigado por entrar em contato!'
+      ];
+      reply = replies[Math.floor(Math.random() * replies.length)];
+    }
+    
     messages = [
       ...messages,
       {
@@ -204,6 +241,36 @@
     ];
     currentMessageIndex = messages.length;
     isBotResponding = false;
+  }
+
+  function handleCommand(command) {
+    // Remove pontos e outros caracteres especiais do final
+    const cleanCommand = command.replace(/[.,!?]+$/, '');
+    
+    switch (cleanCommand) {
+      case '/start':
+        return '👋 Olá! Bem-vindo ao Bot CnPay!\n\nEscolha um dos planos VIP disponíveis:';
+      
+      case '/planos':
+        return '📋 Nossos planos disponíveis:\n\n💎 VIP Mensal - R$ 29,90/mês\n⭐ VIP Trimestral - R$ 49,90/mês\n👑 VIP Permanente - R$ 99,90/mês\n\nDigite /comprar para escolher um plano.';
+      
+      case '/suporte':
+        return '🛟 Suporte Técnico\n\n📧 Email: suporte@cnpay.com\n📱 WhatsApp: (11) 99999-9999\n⏰ Horário: Seg-Sex, 9h às 18h\n\n💡 Para dúvidas rápidas, digite /comando';
+      
+
+      
+      case '/sobre':
+        return 'ℹ️ Sobre o CnPay\n\n🚀 Plataforma de pagamentos automatizados\n💳 Integração com PIX e cartões\n🤖 Bot inteligente para vendas\n📊 Dashboard completo\n\n🌐 Site: appcnpay.com';
+      
+      case '/comando':
+        return '❓ Comandos disponíveis:\n\n/start - Iniciar bot\n/planos - Ver planos\n/comprar - Escolher plano\n/suporte - Contato suporte\n/sobre - Sobre a empresa\n/comando - Esta mensagem';
+      
+      case '/comprar':
+        return '🛒 Para comprar um plano:\n\n1️⃣ Escolha um dos planos acima\n2️⃣ Clique no botão do plano desejado\n3️⃣ Siga as instruções de pagamento\n\n💳 Aceitamos PIX e cartões!';
+      
+      default:
+        return '❓ Comando não reconhecido!\n\nDigite /comando para ver todos os comandos disponíveis.';
+    }
   }
 
   function generatePix() {
@@ -280,7 +347,13 @@
                     <div class="chat-avatar"><img src="../../static/imagem/cn_logo.jpg" alt="avatar"></div>
                     <div class="chat-details">
                       <div class="chat-name">Bot CnPay</div>
-                      <div class="chat-status">online</div>
+                      <div class="chat-status">
+                        {#if isBotTyping}
+                          <span class="typing-indicator">digitando...</span>
+                        {:else}
+                          online
+                        {/if}
+                      </div>
                     </div>
                   </div>
                   <div class="header-actions">
@@ -301,7 +374,7 @@
                           <div class="plan-buttons">
                             {#each planOptions as plan}
                               <button class="plan-btn {selectedPlan === plan.name ? 'selected' : ''}" on:click={() => selectPlan(plan)}>
-                                <span class="plan-icon"><i class="{plan.icon}"></i></span>
+                                <!-- Removido o ícone -->
                                 <span class="plan-name">{plan.name}</span>
                                 <span class="plan-price">{plan.price}</span>
                               </button>
@@ -386,12 +459,6 @@
           </div>
         </div>
         
-        <!-- Botão CRIAR MEU BOT -->
-        <div class="demo-button-container">
-          <button class="btn-primary s-9RSm83WgTQHR">
-            VER BOT DEMO
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -403,8 +470,9 @@
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 600px;
     margin: 0 auto;
+    width: 100%;
   }
 
   .section-header {
@@ -421,7 +489,7 @@
 
   .section-header p {
     font-size: 1.25rem;
-    color: #6b7280;
+    color: #fbfbfb;
     max-width: 600px;
     margin: 0 auto;
   }
@@ -499,7 +567,7 @@
   }
 
   .step-content p {
-    color: #6b7280;
+    color: #fbfbfb;
     line-height: 1.6;
     font-size: 1.1rem;
   }
@@ -519,7 +587,7 @@
   }
 
   .demo-content p {
-    color: #6b7280;
+    color: #fbfbfb;
     font-size: 1.1rem;
     margin-bottom: 2rem;
   }
@@ -586,6 +654,10 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+  }
+
+  ul li{
+    list-style: none;
   }
 
   .telegram-header {
@@ -657,6 +729,17 @@
   .chat-status {
     font-size: 12px;
     opacity: 0.8;
+  }
+
+  .typing-indicator {
+    color: #0088cc;
+    font-weight: 500;
+    animation: typingPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes typingPulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
   }
 
   .header-actions {
@@ -829,6 +912,8 @@
     padding: 0;
   }
 
+
+
   .send-button {
     width: 32px;
     height: 32px;
@@ -868,8 +953,9 @@
     background: hsl(284.82deg 49.74% 37.6% / 40%);
     width: 100%;
     color: #fff;
-    padding: 7px 14px;
-    font-size: 14px;
+    padding: 12px 7px;
+    white-space: nowrap;
+    font-size: 11px;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
